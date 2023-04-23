@@ -228,6 +228,8 @@ void ejecutarTareas() {
     }
 }
 
+void intercambiarFilas(int indiceF1, int indiceF2){
+}
 
 // Definición de las funciones
 
