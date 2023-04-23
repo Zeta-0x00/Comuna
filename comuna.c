@@ -12,9 +12,9 @@ int requeridas[2][8] ={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 char * actividades[11][5]={
 "Libre", "0", "0", "0", "0",
-"Require", "Gym", "100", "30", "# Para iniciar el día con energía",
+"Requiere", "Gym", "100", "30", "# Para iniciar el día con energía",
 "Trabaja", " ", "23", "40", "# Inicio quitandole los cordones a los zapatos",
-"Requiere", " ", "Taller", "34", "20", "# Tengo que ir a traer el betún y el cepillo"
+"Requiere", " ", "Taller", "34", "20", "# Tengo que ir a traer el betún y el cepillo",
 "Trabaja", " ", "324", "20", "# Enbetunar",
 "Requiere", "Taller", "34", "20", "# Se me olvidó el cepillo del brillo",
 "Trabaja", " ", "30", "20", "# Darles brillo",
