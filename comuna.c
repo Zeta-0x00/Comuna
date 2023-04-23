@@ -261,19 +261,20 @@ int main(){
     switch(opcion) {
         case 1:
             roundRobin();
+            ejecutarTareas();
             break;
         case 2:
             trabajoMasCorto();
+            ejecutarTareas();
             break;
         case 3:
             beneficioColectivo();
+            ejecutarTareas();
             break;
         default:
             printf("Opción inválida\n");
             break;
     }
-
-    ejecutarTareas();
 
     return 0;
 }
