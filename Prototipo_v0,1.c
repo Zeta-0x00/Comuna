@@ -72,7 +72,7 @@ int main(){
         tiempo = 0;
         for (j = 0; j < 12; j++ ){
             pasoDelTiempo(10);
-            if (actividades[j][r] == "Libre"){
+            if (actividades[j][0] == "Libre"){
                 ubicacion = j;
                 r = 2;
                 temp += 1;
