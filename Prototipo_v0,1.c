@@ -1,10 +1,9 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
 int requeridas[2][8] ={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-char * actividades[11][5]={
+char * actividades[12][5]={
 "Libre", "0", "0", "0", "0",
 "Require", "Gym", "100", "30", "# Para iniciar el día con energía",
 "Trabaja", " ", "23", "40", "# Inicio quitandole los cordones a los zapatos",
@@ -15,7 +14,9 @@ char * actividades[11][5]={
 "Trabja", " ", "25", "09", "# Hay que tomar turnos para el brillo por que que cansado",
 "Requiere", "Recreación", "23", "09", "# Me cansé, voy a pasear",
 "Trabaja", " ", "242", "98", "# Limpio todo",
-"Requiere", "Taller", "23", "908", "# Entrego todos los materiales"};
+"Requiere", "Taller", "23", "908", "# Entrego todos los materiales",
+"Libre", "0", "0", "0", "0"
+};
 
 typedef struct Battery {
   float percentage;
@@ -43,8 +44,8 @@ void pasoDelTiempo (int n){
     int i;
     int j;
     for (i = 0; i < 8; i++){
-        if(requeridas[0][i] >0){
-            requeridas[0][i] -= n;
+        if(requeridas[0][i] > 0){
+            requeridas[0][i] = requeridas[0][i] - n;
             if (requeridas[0][i] <= 0) {
                 requeridas[0][i] = 0;
                 j = requeridas[1][i];
@@ -61,28 +62,31 @@ int main(){
     int i, j, r, ubicacion, temp, tiempo;
     float carga, x;
     char letra;
+    temp = 0;
     for (i = 0; i < 1000; i++ ){
-        pasoDelTiempo(1);
+        pasoDelTiempo(10);
         letra =' ';
         char mystring[20] = " ";
         charge_battery(&mi_bateria);
         r = 0;
         tiempo = 0;
-        temp = 0;
-        for (j = 0; j < 11; j++ ){
+        for (j = 0; j < 12; j++ ){
+            pasoDelTiempo(10);
             if (actividades[j][r] == "Libre"){
                 ubicacion = j;
                 r = 2;
-                temp = 1;
+                temp += 1;
+            }else if(temp == 2){
+                actividades[ubicacion][0] = "Terminado";
             }else{
-                if(actividades[j][r] != "0"){
+                if(actividades[j][r] != "0" && actividades[ubicacion][0] != "Ocupado"){
                     carga = atof(actividades[j][3]);
                     tiempo = strtol(actividades[j][2], NULL, 10);
                     if(actividades[j][0] == "Trabaja"){
                         x = carga / tiempo;
                         if(tiempo >= 20){
                             pasoDelTiempo(20);
-                            x *= 20;
+                            x = x * 20.00;
                             discharge_battery(&mi_bateria,x);
                             x = carga - x;
                             sprintf(mystring,"%f",x);
@@ -92,10 +96,11 @@ int main(){
                             sprintf(mystring,"%f",x);
                             actividades[j][2] = mystring;
                             r = 0;
+                            temp = 0;
                             printf ("\n El proceso realizado es:%s", actividades[j][4]);
                         }else{
                             pasoDelTiempo(tiempo);
-                            x *= tiempo;
+                            x = x * tiempo;
                             discharge_battery(&mi_bateria,x);
                             x = carga - x;
                             sprintf(mystring,"%f",x);
@@ -105,12 +110,11 @@ int main(){
                             sprintf(mystring,"%f",x);
                             actividades[j][2] = mystring;
                             r = 0;
+                            temp = 0;
                             printf ("\n El proceso realizado es:%s", actividades[j][4]);
                         }
                     }else{
                         if(actividades[j][0] == "Require"){
-                            tiempo = atof(actividades[j][2]);
-                            carga = atof(actividades[j][3]);
                             letra = actividades[j][1][0];
                             switch (letra) {
                                 case 'C':
@@ -119,6 +123,10 @@ int main(){
                                         requeridas[1][0] = ubicacion;
                                         discharge_battery(&mi_bateria,carga);
                                         actividades[j][3] = "0";
+                                        actividades[j][2] = "0";
+                                        actividades[ubicacion][0] = "Ocupado";
+                                        r = 0;
+                                        temp = 0;
                                         printf ("\n El proceso realizado es:%s", actividades[j][4]);
                                     }else{
                                         printf ("\n El recurso esta siendo utilizado");
@@ -130,6 +138,10 @@ int main(){
                                         requeridas[1][1] = ubicacion;
                                         discharge_battery(&mi_bateria,carga);
                                         actividades[j][3] = "0";
+                                        actividades[j][2] = "0";
+                                        actividades[ubicacion][0] = "Ocupado";
+                                        r = 0;
+                                        temp = 0;
                                         printf ("\n El proceso realizado es:%s", actividades[j][4]);
                                     }else{
                                         printf ("\n El recurso esta siendo utilizado");
@@ -141,6 +153,10 @@ int main(){
                                         requeridas[1][2] = ubicacion;
                                         discharge_battery(&mi_bateria,carga);
                                         actividades[j][3] = "0";
+                                        actividades[j][2] = "0";
+                                        actividades[ubicacion][0] = "Ocupado";
+                                        r = 0;
+                                        temp = 0;
                                         printf ("\n El proceso realizado es:%s", actividades[j][4]);
                                     }else{
                                         printf ("\n El recurso esta siendo utilizado");
@@ -152,6 +168,10 @@ int main(){
                                         requeridas[1][3] = ubicacion;
                                         discharge_battery(&mi_bateria,carga);
                                         actividades[j][3] = "0";
+                                        actividades[j][2] = "0";
+                                        actividades[ubicacion][0] = "Ocupado";
+                                        r = 0;
+                                        temp = 0;
                                         printf ("\n El proceso realizado es:%s", actividades[j][4]);
                                     }else{
                                         printf ("\n El recurso esta siendo utilizado");
@@ -163,6 +183,10 @@ int main(){
                                         requeridas[1][4] = ubicacion;
                                         discharge_battery(&mi_bateria,carga);
                                         actividades[j][3] = "0";
+                                        actividades[j][2] = "0";
+                                        actividades[ubicacion][0] = "Ocupado";
+                                        r = 0;
+                                        temp = 0;
                                         printf ("\n El proceso realizado es:%s", actividades[j][4]);
                                     }else{
                                         printf ("\n El recurso esta siendo utilizado");
@@ -174,6 +198,10 @@ int main(){
                                         requeridas[1][5] = ubicacion;
                                         discharge_battery(&mi_bateria,carga);
                                         actividades[j][3] = "0";
+                                        actividades[j][2] = "0";
+                                        actividades[ubicacion][0] = "Ocupado";
+                                        r = 0;
+                                        temp = 0;
                                         printf ("\n El proceso realizado es:%s", actividades[j][4]);
                                     }else{
                                         printf ("\n El recurso esta siendo utilizado");
@@ -185,6 +213,10 @@ int main(){
                                         requeridas[1][6] = ubicacion;
                                         discharge_battery(&mi_bateria,carga);
                                         actividades[j][3] = "0";
+                                        actividades[j][2] = "0";
+                                        actividades[ubicacion][0] = "Ocupado";
+                                        r = 0;
+                                        temp = 0;
                                         printf ("\n El proceso realizado es:%s", actividades[j][4]);
                                     }else{
                                         printf ("\n El recurso esta siendo utilizado");
@@ -196,6 +228,10 @@ int main(){
                                         requeridas[1][7] = ubicacion;
                                         discharge_battery(&mi_bateria,carga);
                                         actividades[j][3] = "0";
+                                        actividades[j][2] = "0";
+                                        actividades[ubicacion][0] = "Ocupado";
+                                        r = 0;
+                                        temp = 0;
                                         printf ("\n El proceso realizado es:%s", actividades[j][4]);
                                     }else{
                                         printf ("\n El recurso esta siendo utilizado");
@@ -203,6 +239,7 @@ int main(){
                                     break;
                                 default:
                                     printf ("\n El recurso especificado no existe");
+                                    r = 0;
                                     break;
                             }
                         }
