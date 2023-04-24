@@ -7,11 +7,11 @@ char * actividades[12][5]={
 "Libre", "0", "0", "0", "0",
 "Requiere", "Gym", "100", "30", "# Para iniciar el día con energía",
 "Trabaja", " ", "23", "40", "# Inicio quitandole los cordones a los zapatos",
-"Requiere", " ", "Taller", "34", "20", "# Tengo que ir a traer el betún y el cepillo",
+"Requiere", "Taller", "34", "20", "# Tengo que ir a traer el betún y el cepillo",
 "Trabaja", " ", "324", "20", "# Enbetunar",
 "Requiere", "Taller", "34", "20", "# Se me olvidó el cepillo del brillo",
 "Trabaja", " ", "30", "20", "# Darles brillo",
-"Trabja", " ", "25", "09", "# Hay que tomar turnos para el brillo por que que cansado",
+"Trabaja", " ", "25", "09", "# Hay que tomar turnos para el brillo por que que cansado",
 "Requiere", "Recreación", "23", "09", "# Me cansé, voy a pasear",
 "Trabaja", " ", "242", "98", "# Limpio todo",
 "Requiere", "Taller", "23", "908", "# Entrego todos los materiales",
@@ -114,7 +114,19 @@ void trabajoMasCorto() {
 
 //Ordenar la matriz en base al algoritmo beneficio colectivo
 void beneficioColectivo() {
-    printf("\nHa seleccionado beneficio colectivo");
+    printf("\nHa seleccionado beneficio colectivo\n");
+}
+
+void imprimirMatriz() {
+    int filas = 12;
+    int columnas = 5;
+    printf("\nMatriz de actividades:\n");
+    for (int i = 0; i < filas; i++) {
+        for (int j = 0; j < columnas; j++) {
+            printf("%-15s", actividades[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 int main(){
@@ -135,8 +147,12 @@ int main(){
             ejecutarTareas();
             break;
         case 2:
+            printf("MATRIZ ORIGINAL----\n");
+            imprimirMatriz();
             trabajoMasCorto();
-            ejecutarTareas();
+            printf("MATRIZ ORDENADA POR TIEMPO DE EJECUCION----\n");
+            imprimirMatriz();
+            //ejecutarTareas();
             break;
         case 3:
             beneficioColectivo();
